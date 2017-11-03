@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SoundBoard"
         mc:Ignorable="d"
         Title="SoundBoard" Height="350" Width="525">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
