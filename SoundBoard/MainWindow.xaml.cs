@@ -125,5 +125,15 @@ namespace SoundBoard
         {
             PlaySoundFile(8);
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            LayoutManager.SaveLayoutToFile(fileLocations);
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            LayoutManager.OpenLayoutFromFile(fileLocations);
+        }
     }
 }
