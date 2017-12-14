@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Windows;
 using Newtonsoft.Json;
 using Microsoft.Win32;
 
@@ -26,10 +23,22 @@ namespace SoundBoard
             if (openFileDialog.ShowDialog() == true)
             {
                 string layoutRaw = File.ReadAllText(openFileDialog.FileName);
-                Uri[] layoutArray = JsonConvert.DeserializeObject<Uri[]>(layoutRaw);
-                for (int i = 0; i < layoutArray.Length; i++)
+                try
                 {
-                    fileLocations[i] = layoutArray[i];
+                    Uri[] layoutArray = JsonConvert.DeserializeObject<Uri[]>(layoutRaw);
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (layoutArray[i] != null && File.Exists(layoutArray[i].LocalPath))
+                        {
+                            fileLocations[i] = layoutArray[i];
+                        } else {
+                            fileLocations[i] = null;
+                        }
+                    }
+                } 
+                catch (Newtonsoft.Json.JsonReaderException e)
+                {
+                    MessageBox.Show("Not a valid layout file.");
                 }
             }
         }
