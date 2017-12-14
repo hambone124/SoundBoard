@@ -41,9 +41,12 @@ namespace SoundBoard
                 if (buttonNumberDialog.ShowDialog() == true)
                 {
                     int buttonNumber = buttonNumberDialog.ResponseText;
-                    fileLocations[buttonNumber - 1] = fileUri;
-                    Console.WriteLine("URI: " + fileLocations[buttonNumber - 1]);
-                    SetButtonText(buttonNumber, newButtonName);
+                    if (buttonNumber > 0 && buttonNumber < 9)
+                    {
+                        fileLocations[buttonNumber - 1] = fileUri;
+                        Console.WriteLine("URI: " + fileLocations[buttonNumber - 1]);
+                        SetButtonText(buttonNumber, newButtonName);
+                    }
                 }
             }                
         }
@@ -133,7 +136,19 @@ namespace SoundBoard
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            LayoutManager.OpenLayoutFromFile(fileLocations);
+            LayoutManager.LoadLayoutFromFile(ref fileLocations);
+            for (int i = 0; i < fileLocations.Length; i++)
+            {
+                int buttonNumber = i + 1;
+                if (fileLocations[i] != null)
+                {
+                    string buttonName = System.IO.Path.GetFileNameWithoutExtension(fileLocations[i].LocalPath);
+                    SetButtonText(buttonNumber, buttonName);
+                } else
+                {
+                    SetButtonText(buttonNumber, "Unused");
+                }
+            }
         }
     }
 }
